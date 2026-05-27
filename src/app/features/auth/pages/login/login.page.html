@@ -1,0 +1,9 @@
+<div class="login-page">
+
+  <app-login
+    [loading]="loading"
+    [errorMessage]="errorMessage"
+    (loginSubmit)="onLogin($event)"
+    (goToRegister)="irARegistro()">
+  </app-login>
+</div>

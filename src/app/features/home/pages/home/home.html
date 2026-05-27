@@ -1,0 +1,11 @@
+<app-home-dashboard 
+    [usuario]="usuario" 
+    [cajero]="cajero" 
+    [inventario]="inventario" 
+    [loadingDashboard]="loadingDashboard"
+    [loadingRetiro]="loadingRetiro" 
+    [errorMessage]="errorMessage"
+    [successMessage]="successMessage" 
+    (retirarSubmit)="retirar($event)" 
+    (logoutSubmit)="cerrarSesion()">
+</app-home-dashboard>

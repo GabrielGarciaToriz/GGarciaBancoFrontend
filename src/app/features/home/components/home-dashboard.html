@@ -1,0 +1,128 @@
+<div class="dashboard">
+
+    <header class="dashboard-header">
+        <div>
+            <h1>Bienvenido, {{ usuario?.nombreUsuario }}</h1>
+            <p>Tarjeta: {{ usuario?.numeroTarjeta }}</p>
+        </div>
+
+        <button type="button" class="logout-btn" (click)="cerrarSesion()">
+            Cerrar sesión
+        </button>
+    </header>
+
+    @if (loadingDashboard) {
+    <div class="info-box">
+        Cargando información del cajero...
+    </div>
+    }
+
+    @if (errorMessage) {
+    <div class="alert error">
+        {{ errorMessage }}
+    </div>
+    }
+
+    @if (successMessage) {
+    <div class="alert success">
+        {{ successMessage }}
+    </div>
+    }
+
+    @if (!loadingDashboard && cajero) {
+    <section class="cards-grid">
+
+        <article class="card">
+            <span>Cajero asignado</span>
+            <h2>{{ cajero.nombreCajero }}</h2>
+            <p>{{ cajero.nombreBanco }}</p>
+        </article>
+
+        <article class="card">
+            <span>Estado</span>
+
+            @if (cajero.activo) {
+            <h2 class="activo">Activo</h2>
+            } @else {
+            <h2 class="inactivo">Inactivo</h2>
+            }
+        </article>
+
+        <article class="card">
+            <span>Disponible</span>
+            <h2>{{ totalDisponible | currency:'MXN':'symbol':'1.2-2' }}</h2>
+        </article>
+
+    </section>
+
+    <section class="main-grid">
+
+        <article class="panel">
+            <h2>Inventario del cajero</h2>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (item of inventario; track item.idDenominacion) {
+                        <tr>
+                            <td>{{ item.tipo }}</td>
+                            <td>{{ item.valor | currency:'MXN':'symbol':'1.2-2' }}</td>
+                            <td>{{ item.cantidadActual }}</td>
+                            <td>{{ item.total | currency:'MXN':'symbol':'1.2-2' }}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </article>
+
+        <article class="panel">
+            <h2>Retirar dinero</h2>
+
+            <form [formGroup]="retiroForm" (ngSubmit)="retirar()">
+
+                <div class="form-group">
+                    <label for="monto">Monto</label>
+
+                    <input id="monto" type="number" formControlName="monto" placeholder="Ej. 500"
+                        [disabled]="loadingRetiro || !cajero.activo" />
+
+                    @if (monto.touched && monto.hasError('required')) {
+                    <small>El monto es obligatorio.</small>
+                    }
+
+                    @if (monto.touched && monto.hasError('min')) {
+                    <small>El monto debe ser mayor a 0.</small>
+                    }
+
+                    @if (monto.touched && monto.hasError('saldoInsuficiente')) {
+                    <small>El monto supera el disponible del cajero.</small>
+                    }
+                </div>
+
+                <button type="submit" [disabled]="loadingRetiro || !cajero.activo">
+
+                    @if (loadingRetiro) {
+                    Retirando...
+                    } @else {
+                    Retirar
+                    }
+
+                </button>
+
+            </form>
+        </article>
+
+    </section>
+    }
+
+</div>

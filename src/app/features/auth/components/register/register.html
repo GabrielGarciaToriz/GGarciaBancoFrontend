@@ -1,0 +1,115 @@
+<div class="register-card">
+
+    <h2>Crear cuenta</h2>
+
+    <p class="subtitle">
+        Registra tus datos para generar tu tarjeta.
+    </p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+
+                <input id="nombre" type="text" formControlName="nombre" placeholder="Ej. Gabriel" />
+
+                @if (nombre.touched && nombre.hasError('required')) {
+                <small>El nombre es obligatorio.</small>
+                }
+
+                @if (nombre.touched && nombre.hasError('minlength')) {
+                <small>El nombre debe tener al menos 2 caracteres.</small>
+                }
+            </div>
+
+            <div class="form-group">
+                <label for="apellidoPaterno">Apellido paterno</label>
+
+                <input id="apellidoPaterno" type="text" formControlName="apellidoPaterno" placeholder="Ej. Garcia" />
+
+                @if (apellidoPaterno.touched && apellidoPaterno.hasError('required')) {
+                <small>El apellido paterno es obligatorio.</small>
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="apellidoMaterno">Apellido materno</label>
+
+            <input id="apellidoMaterno" type="text" formControlName="apellidoMaterno" placeholder="Ej. Toriz" />
+
+            @if (apellidoMaterno.touched && apellidoMaterno.hasError('required')) {
+            <small>El apellido materno es obligatorio.</small>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="correo">Correo</label>
+
+            <input id="correo" type="email" formControlName="correo" placeholder="gabriel.postman2@test.com" />
+
+            @if (correo.touched && correo.hasError('required')) {
+            <small>El correo es obligatorio.</small>
+            }
+
+            @if (correo.touched && correo.hasError('email')) {
+            <small>Ingresa un correo válido.</small>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+
+            <input id="password" type="password" formControlName="password" placeholder="Ingresa una contraseña" />
+
+            @if (password.touched && password.hasError('required')) {
+            <small>La contraseña es obligatoria.</small>
+            }
+
+            @if (password.touched && password.hasError('minlength')) {
+            <small>La contraseña debe tener al menos 4 caracteres.</small>
+            }
+        </div>
+
+        <div class="form-group">
+            <label for="idBanco">Banco</label>
+
+            <select id="idBanco" formControlName="idBanco">
+                <option [value]="0">Selecciona un banco</option>
+
+                @for (banco of bancos; track banco.idBanco) {
+                <option [value]="banco.idBanco">
+                    {{ banco.nombreBanco }}
+                </option>
+                }
+            </select>
+
+            @if (idBanco.touched && idBanco.hasError('min')) {
+            <small>Debes seleccionar un banco.</small>
+            }
+        </div>
+
+        @if (errorMessage) {
+        <div class="error-box">
+            {{ errorMessage }}
+        </div>
+        }
+
+        <button type="submit" [disabled]="loading">
+            @if (loading) {
+            Registrando...
+            } @else {
+            Registrarme
+            }
+        </button>
+        <p class="auth-link">
+            ¿Ya tienes cuenta?
+            <button type="button" (click)="irALogin()">
+                Inicia sesión aquí
+            </button>
+        </p>
+
+    </form>
+
+</div>

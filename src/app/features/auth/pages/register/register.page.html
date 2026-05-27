@@ -1,0 +1,12 @@
+<div class="register-page">
+
+  <app-register
+    [loading]="loading"
+    [loadingBancos]="loadingBancos"
+    [errorMessage]="errorMessage"
+    [bancos]="bancos"
+    (registerSubmit)="onRegister($event)"
+    (goToLogin)="irALogin()">
+  </app-register>
+
+</div>
