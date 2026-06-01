@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { RetiroService } from '../../service/retiro.service';
 import { LoginResponse } from '../../../auth/models/login.model';
 import { CajeroResponse, InventarioCajeroResponse } from '../../models/cajero.model';
 import { RetiroRequest } from '../../models/retiro.model';
+import { MovimientoResponse } from '../../models/movimiento.model';
 
 @Component({
   selector: 'app-home',
@@ -30,22 +31,26 @@ export class Home implements OnInit {
 
   errorMessage: string | null = null;
   successMessage: string | null = null;
+  movimientos: MovimientoResponse[] = [];
+  cargandoMovimientos: boolean = true;
+  mensajeError: string = '';
 
   constructor(
     private authService: AuthService,
     private cajeroService: CajeroService,
     private retiroService: RetiroService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.usuario = this.authService.obtenerSesion();
-
+    console.log('Usuario sesión:', this.usuario);
     if (!this.usuario) {
       this.router.navigate(['/login']);
       return;
     }
-
+    this.cargarMovimientos();
     this.cargarDashboard();
   }
 
@@ -63,11 +68,12 @@ export class Home implements OnInit {
       .pipe(
         finalize(() => {
           this.loadingDashboard = false;
+          this.cdr.detectChanges();
         })
       )
       .subscribe(
         {
-          next: (result) => {
+          next: (result: any) => {
             console.log(result);
             if (!result.correct || !result.object) {
               this.errorMessage = result.errorMessage ?? 'No se pudo obtener la información del cajero.';
@@ -76,6 +82,11 @@ export class Home implements OnInit {
 
             this.cajero = result.object.cajero;
             this.inventario = result.object.inventario ?? [];
+
+            console.log('📦 Variables asignadas en el padre:', {
+              cajero: this.cajero,
+              inventario: this.inventario
+            });
           },
           error: (error) => {
             console.error(error);
@@ -93,7 +104,7 @@ export class Home implements OnInit {
 
     const request: RetiroRequest = {
       idUsuario: this.usuario.idUsuario,
-      idTarjeta: this.usuario.idTarjeta,
+      numeroTarjeta: this.usuario.numeroTarjeta,
       idCajero: this.cajero.idCajero,
       monto
     };
@@ -102,6 +113,7 @@ export class Home implements OnInit {
       .pipe(
         finalize(() => {
           this.loadingRetiro = false;
+          this.cdr.detectChanges();
         })
       )
       .subscribe({
@@ -110,9 +122,7 @@ export class Home implements OnInit {
             this.errorMessage = result.errorMessage ?? 'No se pudo realizar el retiro.';
             return;
           }
-
           this.successMessage = 'Retiro realizado correctamente.';
-
           this.cargarDashboard();
         },
         error: (error) => {
@@ -120,6 +130,25 @@ export class Home implements OnInit {
           this.errorMessage = 'No se pudo conectar con el servidor para realizar el retiro.';
         }
       });
+  }
+  cargarMovimientos(): void {
+    const publicId = this.usuario?.public_id || ''; 
+
+    this.retiroService.obtenerMovimientos(publicId).subscribe({
+      next: (res) => {
+        if (res.correct && res.object) {
+          this.movimientos = res.object;
+        } else {
+          this.mensajeError = 'Aún no tienes movimientos registrados.';
+        }
+        this.cargandoMovimientos = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.mensajeError = 'No se pudo cargar el historial de movimientos.';
+        this.cargandoMovimientos = false;
+      }
+    });
   }
 
   cerrarSesion(): void {

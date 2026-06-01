@@ -10,6 +10,7 @@ export interface LoginResponse {
     nombreUsuario: string;
     idBanco: number;
     nombreBanco: string;
+    public_id: string;
 }
 
 export interface Result<T> {

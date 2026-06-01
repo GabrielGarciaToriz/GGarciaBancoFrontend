@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment  } from '../../../../environments/environment';
+
 
 import {
   CajeroConsultaRequest,
@@ -16,7 +18,7 @@ import { Result } from '../models/result.model';
 })
 export class CajeroService {
 
-  private readonly apiCajero = 'http://localhost:8080/api/cajero';
+  private readonly apiCajero = environment.apiUrl + '/cajero';
 
   constructor(private http: HttpClient) { }
 

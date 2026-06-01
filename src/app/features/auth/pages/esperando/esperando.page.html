@@ -1,0 +1,30 @@
+<div class="activation-container">
+  <div class="activation-card">
+    
+    @if (estado === 'esperando' || estado === 'reenviando') {
+      <div class="icon-loading">🔄</div>
+      <h2>Requiere Activación</h2>
+      <p>Hemos enviado un enlace seguro a tu correo electrónico. Por favor, haz clic en él para continuar.</p>
+      <p style="font-size: 13px; color: #64748b;">(Esperando confirmación en tiempo real...)</p>
+      
+      <button class="btn-secondary" [disabled]="estado === 'reenviando'" (click)="reenviarCorreo()">
+        @if (estado === 'reenviando') {
+          Enviando...
+        } @else {
+          Reenviar correo de activación
+        }
+      </button>
+      
+      @if (mensajeReenvio) {
+        <p style="margin-top: 15px; color: #2563eb; font-weight: bold;">{{ mensajeReenvio }}</p>
+      }
+    }
+
+    @if (estado === 'activado') {
+      <div class="icon-success">✅</div>
+      <h2>¡Verificación Exitosa!</h2>
+      <p>Tu cuenta ya está activa. Redirigiendo al inicio de sesión...</p>
+    }
+
+  </div>
+</div>

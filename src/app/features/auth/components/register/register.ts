@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2'; // <-- Importación de SweetAlert2
 
 import { RegisterRequest } from '../../models/register.model';
 import { BancoResponse } from '../../models/banco.model';
@@ -65,7 +66,20 @@ export class Register {
     }
 
     this.registerSubmit.emit(this.registerForm.getRawValue());
+
+    Swal.fire({
+      title: '¡Registro Exitoso!',
+      text: 'Por favor, revisa tu bandeja de entrada o la carpeta de spam. Te hemos enviado un enlace para activar y verificar tu cuenta.',
+      icon: 'success',
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#3085d6'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.irALogin();
+      }
+    });
   }
+
   irALogin(): void {
     this.goToLogin.emit();
   }

@@ -1,0 +1,25 @@
+<div class="activation-container">
+  <div class="activation-card">
+    
+    @if (estado === 'cargando') {
+      <div class="icon-loading">⏳</div>
+      <h2>Verificando</h2>
+      <p>{{ mensaje }}</p>
+    }
+
+    @if (estado === 'exito') {
+      <div class="icon-success">✅</div>
+      <h2>¡Cuenta Verificada!</h2>
+      <p>{{ mensaje }}</p>
+      <button class="btn-primary" (click)="irALogin()">Ir a Iniciar Sesión</button>
+    }
+
+    @if (estado === 'error') {
+      <div class="icon-error">❌</div>
+      <h2>Error de Verificación</h2>
+      <p>{{ mensaje }}</p>
+      <button class="btn-secondary" (click)="irALogin()">Volver al Inicio</button>
+    }
+
+  </div>
+</div>

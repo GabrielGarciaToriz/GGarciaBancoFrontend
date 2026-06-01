@@ -1,6 +1,6 @@
 export interface RetiroRequest {
     idUsuario: number;
-    idTarjeta: number;
+    numeroTarjeta: string;
     idCajero: number;
     monto: number;
 }

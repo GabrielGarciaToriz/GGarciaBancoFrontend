@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+,       "src/app/features/auth/pages/reset-password/reset.password..pagets"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

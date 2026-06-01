@@ -1,0 +1,104 @@
+/* Reutiliza los mismos estilos que login.css */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 32px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+h2 {
+    margin: 0;
+    font-size: 28px;
+    text-align: center;
+}
+
+.subtitle {
+    margin: 8px 0 24px;
+    text-align: center;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+input {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #2563eb;
+}
+
+small {
+    margin-top: 5px;
+    color: #dc2626;
+    font-size: 13px;
+}
+
+.error-box {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fee2e2;
+    color: #991b1b;
+    font-size: 14px;
+}
+
+.success-box {
+    margin-bottom: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+    font-size: 14px;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.auth-link {
+    margin-top: 18px;
+    text-align: center;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.auth-link a {
+    color: #2563eb;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}

@@ -28,29 +28,26 @@ export class LoginPage {
         this.errorMessage = null;
 
         this.authService.login(request)
-            .pipe(
-                finalize(() => {
-                    this.loading = false;
-                })
-            )
+            .pipe(finalize(() => this.loading = false))
             .subscribe({
                 next: (result) => {
-                    console.log(result);
-                    if (!result.correct || !result.object) {
-                        this.errorMessage = result.errorMessage ?? 'Usuario o contraseña incorrectos.';
+                    this.authService.guardarSesion(result.object!);
+                    this.router.navigate(['/home']);
+                },
+                error: (err) => {
+                    const backendResult = err.error;
+
+                    if (err.status === 403 && backendResult?.errorMessage === 'CUENTA_INACTIVA') {
+                        const publicId = backendResult.object;
+                        this.router.navigate(['/esperando-activacion'], { queryParams: { id: publicId } });
                         return;
                     }
 
-                    this.authService.guardarSesion(result.object);
-
-                    this.router.navigate(['/home']);
-                },
-                error: (error) => {
-                    console.error(error);
-                    this.errorMessage = 'No se pudo conectar con el servidor.';
+                    this.errorMessage = backendResult?.errorMessage || 'Usuario o contraseña incorrectos.';
                 }
             });
     }
+
     irARegistro(): void {
         this.router.navigate(['/register']);
     }

@@ -1,14 +1,15 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common'; // Agrega DatePipe si no lo tienes
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { LoginResponse } from '../../auth/models/login.model';
 import { CajeroResponse, InventarioCajeroResponse } from '../models/cajero.model';
+import { MovimientoResponse } from '../models/movimiento.model'; // <-- Importamos el modelo
 
 @Component({
     selector: 'app-home-dashboard',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, CurrencyPipe],
+    imports: [CommonModule, ReactiveFormsModule, CurrencyPipe, DatePipe], // <-- Añadir DatePipe
     templateUrl: './home-dashboard.html',
     styleUrl: './home-dashboard.css'
 })
@@ -17,6 +18,12 @@ export class HomeDashboard {
     @Input() usuario: LoginResponse | null = null;
     @Input() cajero: CajeroResponse | null = null;
     @Input() inventario: InventarioCajeroResponse[] = [];
+
+    // --- NUEVOS INPUTS PARA MOVIMIENTOS ---
+    @Input() movimientos: MovimientoResponse[] = [];
+    @Input() cargandoMovimientos: boolean = false;
+    @Input() mensajeErrorMovimientos: string = '';
+    // --------------------------------------
 
     @Input() loadingDashboard = false;
     @Input() loadingRetiro = false;

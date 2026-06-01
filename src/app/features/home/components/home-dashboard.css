@@ -275,4 +275,23 @@ button[type="submit"]:disabled {
     padding: 10px;
     font-size: 14px;
   }
+
+  .panel-full {
+    grid-column: 1 / -1;
+  }
+
+  .empty-state,
+  .loading-text {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+    font-weight: 600;
+    background: #f8fafc;
+    border-radius: 10px;
+  }
+
+  .amount {
+    color: #dc2626 !important;
+    font-weight: 700 !important;
+  }
 }

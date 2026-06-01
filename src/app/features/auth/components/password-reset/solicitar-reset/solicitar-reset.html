@@ -1,0 +1,49 @@
+<div class="login-card">
+
+  <h2>¿Olvidaste tu contraseña?</h2>
+
+  <p class="subtitle">
+    Ingresa tu correo registrado y te enviaremos un enlace para restablecerla.
+  </p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="correo">Correo electrónico</label>
+
+      <input
+        id="correo"
+        type="email"
+        formControlName="correo"
+        placeholder="tu@correo.com"
+      />
+
+      @if (correo.touched && correo.hasError('required')) {
+        <small>El correo es obligatorio.</small>
+      }
+
+      @if (correo.touched && correo.hasError('email')) {
+        <small>Ingresa un correo válido.</small>
+      }
+    </div>
+
+    @if (mensajeError) {
+      <div class="error-box">{{ mensajeError }}</div>
+    }
+
+    @if (mensajeExito) {
+      <div class="success-box">{{ mensajeExito }}</div>
+    }
+
+    <button type="submit" [disabled]="loading">
+      @if (loading) { Enviando... } @else { Enviar enlace }
+    </button>
+
+    <p class="auth-link">
+      ¿Ya recordaste tu contraseña?
+      <a routerLink="/login">Inicia sesión</a>
+    </p>
+
+  </form>
+
+</div>
