@@ -40,18 +40,13 @@ export class RegisterPage implements OnInit {
     this.errorMessage = null;
 
     this.bancoService.obtenerBancos()
-      .pipe(
-        finalize(() => {
-          this.loadingBancos = false;
-        })
-      )
+      .pipe()
       .subscribe({
         next: (result) => {
           if (!result.correct) {
             this.errorMessage = result.errorMessage ?? 'No se pudieron cargar los bancos.';
             return;
           }
-
           this.bancos = result.objects ?? [];
         },
         error: (error) => {

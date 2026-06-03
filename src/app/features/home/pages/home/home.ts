@@ -132,12 +132,19 @@ export class Home implements OnInit {
       });
   }
   cargarMovimientos(): void {
-    const publicId = this.usuario?.public_id || ''; 
+    const publicId = this.usuario?.public_id || '';
+    if (!publicId) {
+      this.movimientos = [];
+      this.mensajeError = 'No se encontró el publicId del usuario en la sesión.';
+      this.cargandoMovimientos = false;
+      return;
+    }
 
     this.retiroService.obtenerMovimientos(publicId).subscribe({
       next: (res) => {
-        if (res.correct && res.object) {
-          this.movimientos = res.object;
+        if (res.correct && res.objects) {
+          console.log('Movimientos obtenidos:', res.objects);
+          this.movimientos = res.objects;
         } else {
           this.mensajeError = 'Aún no tienes movimientos registrados.';
         }

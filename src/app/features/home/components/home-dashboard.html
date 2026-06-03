@@ -140,15 +140,17 @@
                             <th>Fecha</th>
                             <th>Cajero</th>
                             <th>Monto</th>
+                            <th>Estado</th>
                         </tr>
                     </thead>
                     <tbody>
                         @for (mov of movimientos; track mov.idRetiro) {
                         <tr>
                             <td>#{{ mov.idRetiro }}</td>
-                            <td>{{ mov.fecha | date:'dd/MM/yyyy HH:mm' }}</td>
-                            <td>{{ mov.nombreCajero }}</td>
-                            <td class="amount">-${{ mov.monto | number:'1.2-2' }}</td>
+                            <td>{{ mov.fecha }}</td>
+                            <td>{{ mov.nombreBanco }}</td>
+                            <td class="amount">-${{ mov.montoPesosSolicitado | number:'1.2-2' }}</td>
+                            <td>{{ mov.estado }}</td>
                         </tr>
                         }
                     </tbody>
@@ -157,7 +159,7 @@
             }
         </article>
 
-    </section> 
+    </section>
     }
 
 </div>

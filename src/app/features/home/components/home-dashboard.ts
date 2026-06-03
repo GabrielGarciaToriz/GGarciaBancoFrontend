@@ -4,12 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { LoginResponse } from '../../auth/models/login.model';
 import { CajeroResponse, InventarioCajeroResponse } from '../models/cajero.model';
-import { MovimientoResponse } from '../models/movimiento.model'; // <-- Importamos el modelo
+import { MovimientoResponse } from '../models/movimiento.model'; 
 
 @Component({
     selector: 'app-home-dashboard',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, CurrencyPipe, DatePipe], // <-- Añadir DatePipe
+    imports: [CommonModule, ReactiveFormsModule, CurrencyPipe],
     templateUrl: './home-dashboard.html',
     styleUrl: './home-dashboard.css'
 })
@@ -19,11 +19,9 @@ export class HomeDashboard {
     @Input() cajero: CajeroResponse | null = null;
     @Input() inventario: InventarioCajeroResponse[] = [];
 
-    // --- NUEVOS INPUTS PARA MOVIMIENTOS ---
     @Input() movimientos: MovimientoResponse[] = [];
     @Input() cargandoMovimientos: boolean = false;
     @Input() mensajeErrorMovimientos: string = '';
-    // --------------------------------------
 
     @Input() loadingDashboard = false;
     @Input() loadingRetiro = false;

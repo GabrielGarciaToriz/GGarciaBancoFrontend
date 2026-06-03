@@ -1,16 +1,5 @@
-<app-home-dashboard 
-    [usuario]="usuario" 
-    [cajero]="cajero" 
-    [inventario]="inventario" 
-    [loadingDashboard]="loadingDashboard"
-    [loadingRetiro]="loadingRetiro" 
-    [errorMessage]="errorMessage"
-    [successMessage]="successMessage" 
-
-    [movimientos]="movimientos"
-    [cargandoMovimientos]="cargandoMovimientos"
-    [mensajeErrorMovimientos]="mensajeError"
-
-    (retirarSubmit)="retirar($event)" 
-    (logoutSubmit)="cerrarSesion()">
+<app-home-dashboard [usuario]="usuario" [cajero]="cajero" [inventario]="inventario"
+    [loadingDashboard]="loadingDashboard" [loadingRetiro]="loadingRetiro" [errorMessage]="errorMessage"
+    [successMessage]="successMessage" [movimientos]="movimientos" [cargandoMovimientos]="cargandoMovimientos"
+    [mensajeErrorMovimientos]="mensajeError" (retirarSubmit)="retirar($event)" (logoutSubmit)="cerrarSesion()">
 </app-home-dashboard>

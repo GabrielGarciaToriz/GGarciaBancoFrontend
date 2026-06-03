@@ -1,7 +1,14 @@
 export interface MovimientoResponse {
+    identificador: number;
+    registro: string;
+    nombre: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    tarjetaUsada: string;
+    nombreBanco: string;
     idRetiro: number;
-    monto: number;
-    numeroTarjeta: string;
-    nombreCajero: string;
-    fecha: Date;
+    montoPesosSolicitado: number;
+    totalEntregado: number;
+    fecha: string;
+    estado: string;
 }

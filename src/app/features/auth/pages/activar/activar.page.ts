@@ -20,7 +20,7 @@ export class ActivarCuenta implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private usuarioService: UsuarioService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const token = this.route.snapshot.queryParamMap.get('token');
@@ -36,7 +36,7 @@ export class ActivarCuenta implements OnInit {
 
   activar(token: string): void {
     this.usuarioService.activarCuenta(token)
-      .pipe(finalize(() => {}))
+      .pipe(finalize(() => { }))
       .subscribe({
         next: (res) => {
           if (res.correct) {
