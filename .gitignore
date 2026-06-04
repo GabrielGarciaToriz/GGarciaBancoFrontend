@@ -1,44 +1,65 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# =========================
+# Angular / build output
+# =========================
+dist/
+tmp/
+out-tsc/
+bazel-out/
+.angular/
 
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
+# =========================
+# Dependencies
+# =========================
+node_modules/
 
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
+# =========================
+# Test / coverage
+# =========================
+coverage/
+.nyc_output/
+test-results/
 
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+# =========================
+# Logs
+# =========================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Visual Studio Code
+# =========================
+# Environment / secrets
+# =========================
+.env
+.env.*
+!.env.example
+*.local
+
+# =========================
+# Sonar / analysis
+# =========================
+.scannerwork/
+
+# =========================
+# IDEs / editors
+# =========================
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/mcp.json
-.history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-__screenshots__/
+.idea/
+*.iml
 
+# =========================
 # System files
+# =========================
 .DS_Store
 Thumbs.db
+
+# =========================
+# Optional
+# =========================
+.history/

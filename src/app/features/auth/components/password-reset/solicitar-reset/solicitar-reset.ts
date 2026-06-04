@@ -17,7 +17,7 @@ export class SolicitarResetComponent {
 
   @Output() formSubmit = new EventEmitter<string>();
 
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
   form = this.fb.nonNullable.group({
     correo: ['', [Validators.required, Validators.email]]

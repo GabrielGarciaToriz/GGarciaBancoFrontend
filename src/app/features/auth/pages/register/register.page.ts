@@ -24,11 +24,11 @@ export class RegisterPage implements OnInit {
 
   errorMessage: string | null = null;
   bancos: BancoResponse[] = [];
-  private usuarioService = inject(UsuarioService);
+  private readonly usuarioService = inject(UsuarioService);
 
   constructor(
-    private bancoService: BancoService,
-    private router: Router
+    private readonly bancoService: BancoService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {

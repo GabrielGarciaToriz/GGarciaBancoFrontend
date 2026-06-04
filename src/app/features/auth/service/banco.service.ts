@@ -12,7 +12,7 @@ export class BancoService {
 
   private readonly apiBanco = environment.apiUrl + '/catalogo';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   obtenerBancos(): Observable<Result<BancoResponse>> {
     return this.http.get<Result<BancoResponse>>(`${this.apiBanco}/banco`);

@@ -36,11 +36,11 @@ export class Home implements OnInit {
   mensajeError: string = '';
 
   constructor(
-    private authService: AuthService,
-    private cajeroService: CajeroService,
-    private retiroService: RetiroService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private readonly authService: AuthService,
+    private readonly cajeroService: CajeroService,
+    private readonly retiroService: RetiroService,
+    private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {

@@ -19,8 +19,8 @@ export class LoginPage {
     errorMessage: string | null = null;
 
     constructor(
-        private authService: AuthService,
-        private router: Router
+        private readonly authService: AuthService,
+        private readonly router: Router
     ) { }
 
     onLogin(request: LoginRequest): void {

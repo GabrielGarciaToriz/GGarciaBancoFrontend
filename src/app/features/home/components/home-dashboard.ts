@@ -32,7 +32,7 @@ export class HomeDashboard {
     @Output() retirarSubmit = new EventEmitter<number>();
     @Output() logoutSubmit = new EventEmitter<void>();
 
-    private fb = inject(FormBuilder);
+    private readonly fb = inject(FormBuilder);
     retiroForm = this.fb.nonNullable.group({
         monto: [0, [Validators.required, Validators.min(1)]]
     });

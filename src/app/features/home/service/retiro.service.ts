@@ -14,7 +14,7 @@ export class RetiroService {
 
   private readonly apiRetiro = environment.apiUrl + '/retiro';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   retirar(request: RetiroRequest): Observable<Result<RetiroResponse>> {
     return this.http.post<Result<RetiroResponse>>(

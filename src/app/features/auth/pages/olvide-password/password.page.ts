@@ -13,7 +13,7 @@ import { finalize } from 'rxjs';
 })
 export class OlvidePasswordPage {
 
-  private passwordResetService = inject(PasswordResetService);
+  private readonly passwordResetService = inject(PasswordResetService);
 
   loading = false;
   mensajeExito = '';

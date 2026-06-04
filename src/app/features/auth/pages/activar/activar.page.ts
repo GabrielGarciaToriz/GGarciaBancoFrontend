@@ -17,9 +17,9 @@ export class ActivarCuenta implements OnInit {
   mensaje: string = 'Verificando tu cuenta, por favor espera...';
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private usuarioService: UsuarioService
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {

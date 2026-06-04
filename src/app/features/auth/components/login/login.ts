@@ -18,7 +18,7 @@ export class Login {
   @Output() loginSubmit = new EventEmitter<LoginRequest>();
   @Output() goToRegister = new EventEmitter<void>();
 
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
   loginForm = this.fb.nonNullable.group({
     numeroTarjeta: [
       '',

@@ -23,7 +23,7 @@ export class Register {
   @Output() registerSubmit = new EventEmitter<RegisterRequest>();
   @Output() goToLogin = new EventEmitter<void>();
 
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
   registerForm = this.fb.nonNullable.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],

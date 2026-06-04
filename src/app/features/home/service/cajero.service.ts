@@ -6,9 +6,7 @@ import { environment } from '../../../../environments/environment';
 
 import {
   CajeroConsultaRequest,
-  CajeroResponse,
-  DashboardCajeroResponse,
-  InventarioCajeroResponse
+  DashboardCajeroResponse
 } from '../models/cajero.model';
 
 import { Result } from '../models/result.model';
@@ -20,7 +18,7 @@ export class CajeroService {
 
   private readonly apiCajero = environment.apiUrl + '/cajero';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   obtenerDashboardCajero(request: CajeroConsultaRequest): Observable<Result<DashboardCajeroResponse>> {
     return this.http.post<Result<DashboardCajeroResponse>>(`${this.apiCajero}/dashboard`, request);

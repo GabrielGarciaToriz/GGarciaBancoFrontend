@@ -20,9 +20,9 @@ export class EsperandoPage implements OnInit, OnDestroy {
     mensajeReenvio: string = '';
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
-        private usuarioService: UsuarioService
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
+        private readonly usuarioService: UsuarioService
     ) { }
 
     ngOnInit(): void {

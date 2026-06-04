@@ -26,7 +26,7 @@ export class CambiarPasswordComponent {
 
   @Output() formSubmit = new EventEmitter<string>();
 
-  private fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
   mostrarPassword = false;
 

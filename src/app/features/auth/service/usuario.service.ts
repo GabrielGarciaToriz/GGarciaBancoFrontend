@@ -13,7 +13,7 @@ export class UsuarioService {
 
   private readonly apiUsuario = environment.apiUrl + '/usuario';
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly http: HttpClient) { }
 
   registrarUsuario(request: RegisterRequest): Observable<Result<RegisterResponse>> {
     return this.http.post<Result<RegisterResponse>>(this.apiUsuario, request);
