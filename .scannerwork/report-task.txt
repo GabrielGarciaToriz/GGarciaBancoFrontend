@@ -1,0 +1,7 @@
+organization=gabrielgarciatoriz
+projectKey=GabrielGarciaToriz_GGarciaBancoFrontend
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.89326
+dashboardUrl=https://sonarcloud.io/dashboard?id=GabrielGarciaToriz_GGarciaBancoFrontend
+ceTaskId=AZ6P8EWjfZhrtJewVll4
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZ6P8EWjfZhrtJewVll4
