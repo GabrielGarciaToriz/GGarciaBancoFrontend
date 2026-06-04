@@ -1,70 +1,56 @@
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common'; // Agrega DatePipe si no lo tienes
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { LoginResponse } from '../../auth/models/login.model';
 import { CajeroResponse, InventarioCajeroResponse } from '../models/cajero.model';
-import { MovimientoResponse } from '../models/movimiento.model'; 
+import { MovimientoResponse } from '../models/movimiento.model';
+
+import { DashboardLayoutComponent } from '../../../shared/ui/templates/dashboard-layout/dashboard-layout';
+import { DashboardHeaderComponent } from '../../../shared/ui/organisms/dashboard-header/dashboard-header';
+import { CajeroSummaryComponent } from '../../../shared/ui/organisms/cajero-summary/cajero-summary';
+import { InventarioTableComponent } from '../../../shared/ui/organisms/inventario-table/inventario-table';
+import { RetiroPanelComponent } from '../../../shared/ui/organisms/retiro-panel/retiro-panel';
+import { MovimientosHistoryComponent } from '../../../shared/ui/organisms/movimientos-history/movimientos-history';
+import { AlertComponent } from '../../../shared/ui/atoms/alert/alert';
+import { LoadingMessageComponent } from '../../../shared/ui/atoms/loading-message/loading-message';
 
 @Component({
-    selector: 'app-home-dashboard',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, CurrencyPipe],
-    templateUrl: './home-dashboard.html',
-    styleUrl: './home-dashboard.css'
+  selector: 'app-home-dashboard',
+  standalone: true,
+  imports: [
+    DashboardLayoutComponent,
+    DashboardHeaderComponent,
+    CajeroSummaryComponent,
+    InventarioTableComponent,
+    RetiroPanelComponent,
+    MovimientosHistoryComponent,
+    AlertComponent,
+    LoadingMessageComponent
+  ],
+  templateUrl: './home-dashboard.html',
+  styleUrl: './home-dashboard.css'
 })
 export class HomeDashboard {
 
-    @Input() usuario: LoginResponse | null = null;
-    @Input() cajero: CajeroResponse | null = null;
-    @Input() inventario: InventarioCajeroResponse[] = [];
+  @Input() usuario: LoginResponse | null = null;
+  @Input() cajero: CajeroResponse | null = null;
+  @Input() inventario: InventarioCajeroResponse[] = [];
 
-    @Input() movimientos: MovimientoResponse[] = [];
-    @Input() cargandoMovimientos: boolean = false;
-    @Input() mensajeErrorMovimientos: string = '';
+  @Input() movimientos: MovimientoResponse[] = [];
+  @Input() cargandoMovimientos = false;
+  @Input() mensajeErrorMovimientos = '';
 
-    @Input() loadingDashboard = false;
-    @Input() loadingRetiro = false;
+  @Input() loadingDashboard = false;
+  @Input() loadingRetiro = false;
 
-    @Input() errorMessage: string | null = null;
-    @Input() successMessage: string | null = null;
+  @Input() errorMessage: string | null = null;
+  @Input() successMessage: string | null = null;
 
-    @Output() retirarSubmit = new EventEmitter<number>();
-    @Output() logoutSubmit = new EventEmitter<void>();
+  @Output() retirarSubmit = new EventEmitter<number>();
+  @Output() logoutSubmit = new EventEmitter<void>();
 
-    private readonly fb = inject(FormBuilder);
-    retiroForm = this.fb.nonNullable.group({
-        monto: [0, [Validators.required, Validators.min(1)]]
-    });
-
-    get monto() {
-        return this.retiroForm.controls.monto;
-    }
-
-    get totalDisponible(): number {
-        return this.inventario.reduce((total, item) => {
-            return total + (item.total ?? 0);
-        }, 0);
-    }
-
-    retirar(): void {
-        if (this.retiroForm.invalid) {
-            this.retiroForm.markAllAsTouched();
-            return;
-        }
-
-        const monto = this.retiroForm.getRawValue().monto;
-
-        if (monto > this.totalDisponible) {
-            this.monto.setErrors({ saldoInsuficiente: true });
-            return;
-        }
-
-        this.retirarSubmit.emit(monto);
-        this.retiroForm.reset({ monto: 0 });
-    }
-
-    cerrarSesion(): void {
-        this.logoutSubmit.emit();
-    }
+  get totalDisponible(): number {
+    return this.inventario.reduce((total, item) => {
+      return total + (item.total ?? 0);
+    }, 0);
+  }
 }

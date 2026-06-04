@@ -1,165 +1,55 @@
-<div class="dashboard">
+<app-dashboard-layout>
 
-    <header class="dashboard-header">
-        <div>
-            <h1>Bienvenido, {{ usuario?.nombreUsuario }}</h1>
-            <p>Tarjeta: {{ usuario?.numeroTarjeta }}</p>
-        </div>
+  <app-dashboard-header
+    [usuario]="usuario"
+    (logoutSubmit)="logoutSubmit.emit()">
+  </app-dashboard-header>
 
-        <button type="button" class="logout-btn" (click)="cerrarSesion()">
-            Cerrar sesión
-        </button>
-    </header>
+  @if (loadingDashboard) {
+    <app-loading-message message="Cargando información del cajero..."></app-loading-message>
+  }
 
-    @if (loadingDashboard) {
-    <div class="info-box">
-        Cargando información del cajero...
-    </div>
-    }
+  @if (errorMessage) {
+    <app-alert
+      type="error"
+      [message]="errorMessage">
+    </app-alert>
+  }
 
-    @if (errorMessage) {
-    <div class="alert error">
-        {{ errorMessage }}
-    </div>
-    }
+  @if (successMessage) {
+    <app-alert
+      type="success"
+      [message]="successMessage">
+    </app-alert>
+  }
 
-    @if (successMessage) {
-    <div class="alert success">
-        {{ successMessage }}
-    </div>
-    }
+  @if (!loadingDashboard && cajero) {
 
-    @if (!loadingDashboard && cajero) {
-    <section class="cards-grid">
+    <app-cajero-summary
+      [cajero]="cajero"
+      [totalDisponible]="totalDisponible">
+    </app-cajero-summary>
 
-        <article class="card">
-            <span>Cajero asignado</span>
-            <h2>{{ cajero.nombreCajero }}</h2>
-            <p>{{ cajero.nombreBanco }}</p>
-        </article>
+    <section class="home-dashboard__main-grid">
 
-        <article class="card">
-            <span>Estado</span>
+      <app-inventario-table
+        [inventario]="inventario">
+      </app-inventario-table>
 
-            @if (cajero.activo) {
-            <h2 class="activo">Activo</h2>
-            } @else {
-            <h2 class="inactivo">Inactivo</h2>
-            }
-        </article>
+      <app-retiro-panel
+        [loadingRetiro]="loadingRetiro"
+        [cajeroActivo]="cajero.activo"
+        [totalDisponible]="totalDisponible"
+        (retirarSubmit)="retirarSubmit.emit($event)">
+      </app-retiro-panel>
 
-        <article class="card">
-            <span>Disponible</span>
-            <h2>{{ totalDisponible | currency:'MXN':'symbol':'1.2-2' }}</h2>
-        </article>
+      <app-movimientos-history
+        [movimientos]="movimientos"
+        [cargandoMovimientos]="cargandoMovimientos"
+        [mensajeErrorMovimientos]="mensajeErrorMovimientos">
+      </app-movimientos-history>
 
     </section>
+  }
 
-    <section class="main-grid">
-
-        <article class="panel">
-            <h2>Inventario del cajero</h2>
-
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Valor</th>
-                            <th>Cantidad</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @for (item of inventario; track item.idDenominacion) {
-                        <tr>
-                            <td>{{ item.tipo }}</td>
-                            <td>{{ item.valor | currency:'MXN':'symbol':'1.2-2' }}</td>
-                            <td>{{ item.cantidadActual }}</td>
-                            <td>{{ item.total | currency:'MXN':'symbol':'1.2-2' }}</td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </article>
-
-        <article class="panel">
-            <h2>Retirar dinero</h2>
-
-            <form [formGroup]="retiroForm" (ngSubmit)="retirar()">
-
-                <div class="form-group">
-                    <label for="monto">Monto</label>
-
-                    <input id="monto" type="number" formControlName="monto" placeholder="Ej. 500"
-                        [disabled]="loadingRetiro || !cajero.activo" />
-
-                    @if (monto.touched && monto.hasError('required')) {
-                    <small>El monto es obligatorio.</small>
-                    }
-
-                    @if (monto.touched && monto.hasError('min')) {
-                    <small>El monto debe ser mayor a 0.</small>
-                    }
-
-                    @if (monto.touched && monto.hasError('saldoInsuficiente')) {
-                    <small>El monto supera el disponible del cajero.</small>
-                    }
-                </div>
-
-                <button type="submit" [disabled]="loadingRetiro || !cajero.activo">
-
-                    @if (loadingRetiro) {
-                    Retirando...
-                    } @else {
-                    Retirar
-                    }
-
-                </button>
-
-            </form>
-        </article>
-
-        <article class="panel panel-full">
-            <h2>Historial de Retiros</h2>
-
-            @if (cargandoMovimientos) {
-            <p class="loading-text">Cargando movimientos...</p>
-            } @else if (movimientos.length === 0) {
-            <div class="empty-state">
-                <p>🏦 {{ mensajeErrorMovimientos || 'No tienes retiros registrados en este cajero.' }}</p>
-            </div>
-            } @else {
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID Ticket</th>
-                            <th>Fecha</th>
-                            <th>Cajero</th>
-                            <th>Monto</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (mov of movimientos; track mov.fecha ) {
-                        <tr>
-                            <td>#{{ mov.idRetiro }}</td>
-                            <td>{{ mov.fecha }}</td>
-                            <td>{{ mov.nombreBanco }}</td>
-                            <td class="amount">-${{ mov.montoPesosSolicitado | number:'1.2-2' }}</td>
-                            <td>{{ mov.estado }}</td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            }
-        </article>
-
-    </section>
-    }
-
-</div>
+</app-dashboard-layout>

@@ -1,0 +1,13 @@
+<header class="dashboard-header">
+    <div>
+        <h1>Bienvenido, {{ usuario?.nombreUsuario }}</h1>
+        <p>Tarjeta: {{ usuario?.numeroTarjeta }}</p>
+    </div>
+
+    <div class="dashboard-header__button">
+        <app-button type="button" variant="danger" (click)="logoutSubmit.emit()">
+
+            Cerrar sesión
+        </app-button>
+    </div>
+</header>

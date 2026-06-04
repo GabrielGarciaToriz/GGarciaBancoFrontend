@@ -1,0 +1,35 @@
+.info-card {
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.info-card__title {
+  display: block;
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-card__value {
+  margin: 0;
+  color: #0f172a;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.info-card__value--success {
+  color: #16a34a;
+}
+
+.info-card__value--danger {
+  color: #dc2626;
+}
+
+.info-card__description {
+  margin: 8px 0 0;
+  color: #64748b;
+  font-size: 15px;
+}

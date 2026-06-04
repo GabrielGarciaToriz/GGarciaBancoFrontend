@@ -1,0 +1,33 @@
+<article class="panel">
+  <h2>Inventario del cajero</h2>
+
+  @if (inventario.length === 0) {
+    <div class="empty-state">
+      No hay inventario disponible.
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (item of inventario; track item.idDenominacion) {
+            <tr>
+              <td>{{ item.tipo }}</td>
+              <td>{{ item.valor | currency:'MXN':'symbol':'1.2-2' }}</td>
+              <td>{{ item.cantidadActual }}</td>
+              <td>{{ item.total | currency:'MXN':'symbol':'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</article>

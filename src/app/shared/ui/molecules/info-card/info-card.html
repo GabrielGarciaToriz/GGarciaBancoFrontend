@@ -1,0 +1,15 @@
+<article class="info-card">
+  <span class="info-card__title">{{ title }}</span>
+
+  <h2
+    class="info-card__value"
+    [class.info-card__value--success]="tone === 'success'"
+    [class.info-card__value--danger]="tone === 'danger'">
+
+    {{ value ?? 'Sin información' }}
+  </h2>
+
+  @if (description) {
+    <p class="info-card__description">{{ description }}</p>
+  }
+</article>

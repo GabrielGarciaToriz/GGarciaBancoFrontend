@@ -1,0 +1,22 @@
+@if (cajero) {
+  <section class="cajero-summary">
+
+    <app-info-card
+      title="Cajero asignado"
+      [value]="cajero.nombreCajero"
+      [description]="cajero.nombreBanco">
+    </app-info-card>
+
+    <app-info-card
+      title="Estado"
+      [value]="cajero.activo ? 'Activo' : 'Inactivo'"
+      [tone]="cajero.activo ? 'success' : 'danger'">
+    </app-info-card>
+
+    <app-info-card
+      title="Disponible"
+      [value]="(totalDisponible | currency:'MXN':'symbol':'1.2-2') ?? '$0.00'">
+    </app-info-card>
+
+  </section>
+}

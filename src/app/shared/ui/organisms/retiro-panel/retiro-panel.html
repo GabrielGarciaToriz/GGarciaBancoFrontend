@@ -1,0 +1,43 @@
+<article class="panel">
+  <h2>Retirar dinero</h2>
+
+  <form [formGroup]="retiroForm" (ngSubmit)="retirar()">
+
+    <div class="form-group">
+      <label for="monto">Monto</label>
+
+      <input
+        id="monto"
+        type="number"
+        formControlName="monto"
+        placeholder="Ej. 500"
+        [readonly]="loadingRetiro || !cajeroActivo" />
+
+      @if (monto.touched && monto.hasError('required')) {
+        <small>El monto es obligatorio.</small>
+      }
+
+      @if (monto.touched && monto.hasError('min')) {
+        <small>El monto debe ser mayor a 0.</small>
+      }
+
+      @if (monto.touched && monto.hasError('saldoInsuficiente')) {
+        <small>El monto supera el disponible del cajero.</small>
+      }
+    </div>
+
+    <app-button
+      type="submit"
+      variant="primary"
+      [disabled]="loadingRetiro || !cajeroActivo">
+
+      @if (loadingRetiro) {
+        Retirando...
+      } @else {
+        Retirar
+      }
+
+    </app-button>
+
+  </form>
+</article>

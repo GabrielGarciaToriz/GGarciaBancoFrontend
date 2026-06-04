@@ -1,0 +1,37 @@
+<article class="panel">
+  <h2>Historial de Retiros</h2>
+
+  @if (cargandoMovimientos) {
+    <p class="loading-text">Cargando movimientos...</p>
+  } @else if (movimientos.length === 0) {
+    <div class="empty-state">
+      <p>🏦 {{ mensajeErrorMovimientos || 'No tienes retiros registrados en este cajero.' }}</p>
+    </div>
+  } @else {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID Ticket</th>
+            <th>Fecha</th>
+            <th>Cajero</th>
+            <th>Monto</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (mov of movimientos; track mov.idRetiro) {
+            <tr>
+              <td>#{{ mov.idRetiro }}</td>
+              <td>{{ mov.fecha }}</td>
+              <td>{{ mov.nombreBanco }}</td>
+              <td class="amount">-${{ mov.montoPesosSolicitado | number:'1.2-2' }}</td>
+              <td>{{ mov.estado }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</article>

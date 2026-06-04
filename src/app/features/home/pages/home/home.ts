@@ -31,9 +31,10 @@ export class Home implements OnInit {
 
   errorMessage: string | null = null;
   successMessage: string | null = null;
+
   movimientos: MovimientoResponse[] = [];
-  cargandoMovimientos: boolean = true;
-  mensajeError: string = '';
+  cargandoMovimientos = true;
+  mensajeError = '';
 
   constructor(
     private readonly authService: AuthService,
@@ -45,13 +46,14 @@ export class Home implements OnInit {
 
   ngOnInit(): void {
     this.usuario = this.authService.obtenerSesion();
-    console.log('Usuario sesión:', this.usuario);
+
     if (!this.usuario) {
       this.router.navigate(['/login']);
       return;
     }
-    this.cargarMovimientos();
+
     this.cargarDashboard();
+    this.cargarMovimientos();
   }
 
   cargarDashboard(): void {
@@ -71,28 +73,21 @@ export class Home implements OnInit {
           this.cdr.detectChanges();
         })
       )
-      .subscribe(
-        {
-          next: (result: any) => {
-            console.log(result);
-            if (!result.correct || !result.object) {
-              this.errorMessage = result.errorMessage ?? 'No se pudo obtener la información del cajero.';
-              return;
-            }
-
-            this.cajero = result.object.cajero;
-            this.inventario = result.object.inventario ?? [];
-
-            console.log('📦 Variables asignadas en el padre:', {
-              cajero: this.cajero,
-              inventario: this.inventario
-            });
-          },
-          error: (error) => {
-            console.error(error);
-            this.errorMessage = 'No se pudo conectar con el servidor.';
+      .subscribe({
+        next: (result) => {
+          if (!result.correct || !result.object) {
+            this.errorMessage = result.errorMessage ?? 'No se pudo obtener la información del cajero.';
+            return;
           }
-        });
+
+          this.cajero = result.object.cajero;
+          this.inventario = result.object.inventario ?? [];
+        },
+        error: (error) => {
+          console.error(error);
+          this.errorMessage = 'No se pudo conectar con el servidor.';
+        }
+      });
   }
 
   retirar(monto: number): void {
@@ -122,8 +117,10 @@ export class Home implements OnInit {
             this.errorMessage = result.errorMessage ?? 'No se pudo realizar el retiro.';
             return;
           }
+
           this.successMessage = 'Retiro realizado correctamente.';
           this.cargarDashboard();
+          this.cargarMovimientos();
         },
         error: (error) => {
           console.error(error);
@@ -131,8 +128,13 @@ export class Home implements OnInit {
         }
       });
   }
+
   cargarMovimientos(): void {
     const publicId = this.usuario?.public_id || '';
+
+    this.cargandoMovimientos = true;
+    this.mensajeError = '';
+
     if (!publicId) {
       this.movimientos = [];
       this.mensajeError = 'No se encontró el publicId del usuario en la sesión.';
@@ -143,15 +145,17 @@ export class Home implements OnInit {
     this.retiroService.obtenerMovimientos(publicId).subscribe({
       next: (res) => {
         if (res.correct && res.objects) {
-          console.log('Movimientos obtenidos:', res.objects);
           this.movimientos = res.objects;
         } else {
+          this.movimientos = [];
           this.mensajeError = 'Aún no tienes movimientos registrados.';
         }
+
         this.cargandoMovimientos = false;
       },
       error: (err) => {
         console.error(err);
+        this.movimientos = [];
         this.mensajeError = 'No se pudo cargar el historial de movimientos.';
         this.cargandoMovimientos = false;
       }

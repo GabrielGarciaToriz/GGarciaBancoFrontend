@@ -1,0 +1,10 @@
+<button
+  class="button"
+  [class.button--primary]="variant === 'primary'"
+  [class.button--danger]="variant === 'danger'"
+  [class.button--secondary]="variant === 'secondary'"
+  [type]="type"
+  [disabled]="disabled">
+
+  <ng-content></ng-content>
+</button>
